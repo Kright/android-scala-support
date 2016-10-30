@@ -4,9 +4,12 @@ version '0.1'
 apply plugin: 'groovy'
 apply plugin: 'maven'
 
-repositories {
-    mavenCentral()
-    jcenter()
+
+allprojects{
+	repositories{
+		mavenCentral()
+		jcenter()
+	}
 }
 
 buildscript{
@@ -24,8 +27,34 @@ dependencies {
     compile localGroovy()
 
     compile 'com.android.tools.build:gradle:2.0.0'
+	compile project(':plugin')
+}
+
+project(':plugin'){
+	apply plugin: 'groovy'
+	
+	dependencies{
+		compile gradleApi()
+		compile localGroovy()
+
+		compile 'com.android.tools.build:gradle:2.0.0'
+	}
+	
+	buildscript{
+		repositories{
+			mavenCentral()
+		}
+
+		dependencies{
+			classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
+		}
+	}
 }
 
 allprojects{
-    task hello << { task -> println "I'm $task.project.name" }
+    task helloProjects << { task -> println "I'm $task.project.name" }
+}
+
+subprojects{
+    task helloSubprojects << { task -> println "I'm $task.project.name" }
 }
