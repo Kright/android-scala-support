@@ -18,5 +18,5 @@ buildscript {
 
 in module
 ```
-apply plugin 'scala-android-support'
+apply plugin 'android-scala-support'
 ```
