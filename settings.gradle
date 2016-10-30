@@ -1,2 +1,3 @@
 rootProject.name = 'android-scala-support'
 
+include 'plugin'
