@@ -1,0 +1,17 @@
+group 'com.github.kright.androidscalasupport'
+version '0.1'
+
+apply plugin: 'groovy'
+apply plugin: 'maven'
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    compile gradleApi()
+    compile localGroovy()
+
+    compile 'com.android.tools.build:gradle:2.0.0'
+}
