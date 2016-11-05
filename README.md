@@ -1,9 +1,10 @@
 # android-scala-support
 It will be gradle plugin for scala support in android projects (but it isn't yet)
 
-### how add:
+### how to use:
 
-```
+in main build.gradle
+```groovy
 buildscript {
     repositories {
         maven {
@@ -11,12 +12,12 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.github.Kright:android-scala-support:master-SNAPSHOT' // the newest vesion
+        classpath 'com.github.Kright:android-scala-support:master-SNAPSHOT' // the newest version
     }
 }
 ```
 
-in module
-```
-apply plugin 'android-scala-support'
+in module \*.build
+```groovy
+apply plugin: 'android-scala-support'
 ```
