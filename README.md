@@ -17,7 +17,7 @@ buildscript {
 }
 ```
 
-in module \*.build
+in module \*.gradle
 ```groovy
 apply plugin: 'android-scala-support'
 ```
