@@ -1,5 +1,6 @@
 group 'com.github.kright.androidscalasupport'
-version '0.1'
+
+version = '0.1'
 
 apply plugin: 'groovy'
 apply plugin: 'maven'
@@ -32,6 +33,7 @@ task testExamplesBuild {
 }
 
 build.dependsOn(testExamplesBuild)
+testExamplesBuild.dependsOn(jar)
 
 testExamplesBuild << {
     def examplesDirs = new File("./examples").listFiles()

@@ -2,6 +2,7 @@ apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'groovy'
 
 group='com.github.Kright' // for jitpack.io
+version = '0.1'
 
 dependencies{
     compile gradleApi()
