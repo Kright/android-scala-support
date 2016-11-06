@@ -31,22 +31,25 @@ task testExamplesBuild {
     description = "builds examples projects"
 }
 
-//build.dependsOn(testExamplesBuild) it's like a fork bomb now
+build.dependsOn(testExamplesBuild)
 
 testExamplesBuild << {
     def examplesDirs = new File("./examples").listFiles()
     examplesDirs.each { exampleDir ->
-        print("building example project '${exampleDir.name}' : ")
+        println("building example project '${exampleDir.name}' : ")
 
         def gradleCommand = exampleDir.absolutePath + File.separator + "gradlew.bat"
-        def processBuilder = new ProcessBuilder([gradleCommand, "build"])
+        def processBuilder = new ProcessBuilder([gradleCommand, "-q", ":app:check"])
+        processBuilder.directory(exampleDir)
 
         def process = processBuilder.start()
         process.waitFor()
+        process.in.readLines().each { println("\t$it") }
+        process.err.readLines().each { println("\t$it") }
 
         def success = process.exitValue() == 0
 
-        println(success ? "success" : "fail")
+        println(success ? "success!" : "fail")
         if (!success) {
             throw new TaskExecutionException(it, new Exception("project example ${exampleDir.name} wasn't builded"))
         }
