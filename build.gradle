@@ -5,31 +5,50 @@ apply plugin: 'groovy'
 apply plugin: 'maven'
 
 
-allprojects{
-	repositories{
-		mavenCentral()
-		jcenter()
-	}
+allprojects {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
 }
 
-buildscript{
-    repositories{
+buildscript {
+    repositories {
         mavenCentral()
     }
 
-    dependencies{
+    dependencies {
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
     }
 }
 
 dependencies {
-	compile project(':plugin')
+    compile project(':plugin')
 }
 
-allprojects{
-    task helloProjects << { task -> println "I'm $task.project.name" }
+
+task testExamplesBuild {
+    description = "builds examples projects"
 }
 
-subprojects{
-    task helloSubprojects << { task -> println "I'm $task.project.name" }
+//build.dependsOn(testExamplesBuild) it's like a fork bomb now
+
+testExamplesBuild << {
+    def examplesDirs = new File("./examples").listFiles()
+    examplesDirs.each { exampleDir ->
+        print("building example project '${exampleDir.name}' : ")
+
+        def gradleCommand = exampleDir.absolutePath + File.separator + "gradlew.bat"
+        def processBuilder = new ProcessBuilder([gradleCommand, "build"])
+
+        def process = processBuilder.start()
+        process.waitFor()
+
+        def success = process.exitValue() == 0
+
+        println(success ? "success" : "fail")
+        if (!success) {
+            throw new TaskExecutionException(it, new Exception("project example ${exampleDir.name} wasn't builded"))
+        }
+    }
 }
