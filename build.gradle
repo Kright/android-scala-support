@@ -35,12 +35,16 @@ task testExamplesBuild {
 build.dependsOn(testExamplesBuild)
 testExamplesBuild.dependsOn(jar)
 
+import org.gradle.internal.os.OperatingSystem;
+
 testExamplesBuild << {
     def examplesDirs = new File("./examples").listFiles()
     examplesDirs.each { exampleDir ->
         println("building example project '${exampleDir.name}' : ")
 
-        def gradleCommand = exampleDir.absolutePath + File.separator + "gradlew.bat"
+        def extension = ""
+        if (OperatingSystem.current().isWindows()) extension = ".bat"
+        def gradleCommand = exampleDir.absolutePath + File.separator + "gradlew" + extension
         def processBuilder = new ProcessBuilder([gradleCommand, "-q", ":app:check"])
         processBuilder.directory(exampleDir)
 
