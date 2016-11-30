@@ -3,6 +3,8 @@ import org.gradle.api.tasks.TaskAction
 import org.gradle.api.tasks.TaskExecutionException
 import org.gradle.internal.os.OperatingSystem
 
+import java.nio.file.Files
+
 /**
  * for each folder task runs gradlew wrapper in separate process
  * passes gradleCommands as parameters
@@ -23,7 +25,7 @@ class GradleCommandRunner extends DefaultTask {
 			assert exampleDir.exists()
 			assert exampleDir.isDirectory()
 
-			println("building example project '${exampleDir.name}' : ")
+			println("\nbuilding project '${exampleDir.name}' with params : ${gradleCommands}\n")
 
 			def extension = ""
 			if (OperatingSystem.current().isWindows()) extension = ".bat"
@@ -33,9 +35,11 @@ class GradleCommandRunner extends DefaultTask {
 			processBuilder.directory(exampleDir)
 
 			def process = processBuilder.start()
+
+			[Thread.start { Files.copy(process.in, System.out) },
+			 Thread.start { Files.copy(process.err, System.err) }].each { it.join() }
+
 			process.waitFor()
-			process.in.readLines().each { println("\t$it") }
-			process.err.readLines().each { println("\t$it") }
 
 			def success = process.exitValue() == 0
 
