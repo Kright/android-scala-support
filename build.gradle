@@ -35,7 +35,7 @@ task testExamplesBuild {
 build.dependsOn(testExamplesBuild)
 testExamplesBuild.dependsOn(jar)
 
-import org.gradle.internal.os.OperatingSystem;
+import org.gradle.internal.os.OperatingSystem
 
 testExamplesBuild << {
     def examplesDirs = new File("./examples").listFiles()
