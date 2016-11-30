@@ -27,37 +27,26 @@ dependencies {
     compile project(':plugin')
 }
 
+build.dependsOn("testsCheck")
 
-task testExamplesBuild {
-    description = "builds examples projects"
+task testsCheck(type: GradleCommandRunner) {
+    description = "checks projects in examples folder"
+    failFast = false
+    gradleCommands = ["-q", ":app:check"]
+    folders = new File("./examples").listFiles()
+
+    dependencies {
+        jar
+    }
 }
 
-build.dependsOn(testExamplesBuild)
-testExamplesBuild.dependsOn(jar)
+task testsConnectedCheck(type: GradleCommandRunner) {
+    description = "checks projects in examples folder on emulator"
+    failFast = true
+    gradleCommands = ["-q", ":app:connectedCheck"]
+    folders = new File("./examples").listFiles()
 
-import org.gradle.internal.os.OperatingSystem
-
-testExamplesBuild << {
-    def examplesDirs = new File("./examples").listFiles()
-    examplesDirs.each { exampleDir ->
-        println("building example project '${exampleDir.name}' : ")
-
-        def extension = ""
-        if (OperatingSystem.current().isWindows()) extension = ".bat"
-        def gradleCommand = exampleDir.absolutePath + File.separator + "gradlew" + extension
-        def processBuilder = new ProcessBuilder([gradleCommand, "-q", ":app:check"])
-        processBuilder.directory(exampleDir)
-
-        def process = processBuilder.start()
-        process.waitFor()
-        process.in.readLines().each { println("\t$it") }
-        process.err.readLines().each { println("\t$it") }
-
-        def success = process.exitValue() == 0
-
-        println(success ? "success!" : "fail")
-        if (!success) {
-            throw new TaskExecutionException(it, new Exception("project example ${exampleDir.name} wasn't builded"))
-        }
+    dependencies {
+        jar
     }
 }
