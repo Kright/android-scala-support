@@ -11,7 +11,7 @@ class AndroidScalaExtension {
 	Project project
 
 	String scalaVersion
-	String zincVersion = "0.3.12"
+	String zincVersion = "0.3.11"
 
 	def scalaVersion(String version) {
 		scalaVersion = version

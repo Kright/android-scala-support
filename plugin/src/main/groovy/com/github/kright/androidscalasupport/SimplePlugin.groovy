@@ -62,7 +62,7 @@ class SimplePlugin implements Plugin<Project> {
 
 	private def updateAndroidSourceSets() {
 		androidExtension.sourceSets.each {
-			it.java.filter.include("*.scala")
+			it.java.filter.include("**/*.scala")
 		}
 	}
 
