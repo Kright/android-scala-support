@@ -1,3 +1,5 @@
+package com.github.kright.androidscalasupport
+
 import org.gradle.api.Project
 
 /**
@@ -8,7 +10,8 @@ class AndroidScalaExtension {
 
 	Project project
 
-	private String scalaVersion
+	String scalaVersion
+	String zincVersion = "0.3.12"
 
 	def scalaVersion(String version) {
 		scalaVersion = version

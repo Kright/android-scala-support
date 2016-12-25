@@ -31,8 +31,8 @@ build.dependsOn("testsCheck")
 
 task testsCheck(type: GradleCommandRunner) {
 	description = "checks projects in examples folder"
-	failFast = false
-	gradleCommands = ["-q", "build", ":app:check"]
+	failFast = true
+	gradleCommands = ["--stacktrace", "clean", "build", ":app:check"]
 	folders = new File("./examples").listFiles()
 
 	dependencies {
@@ -43,7 +43,7 @@ task testsCheck(type: GradleCommandRunner) {
 task testsConnectedCheck(type: GradleCommandRunner) {
 	description = "checks projects in examples folder on emulator"
 	failFast = true
-	gradleCommands = ["-q", ":app:connectedCheck"]
+	gradleCommands = ["--stacktrace", ":app:connectedCheck"]
 	folders = new File("./examples").listFiles()
 
 	dependencies {
