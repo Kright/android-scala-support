@@ -32,7 +32,7 @@ build.dependsOn("testsCheck")
 task testsCheck(type: GradleCommandRunner) {
     description = "checks projects in examples folder"
     failFast = false
-    gradleCommands = ["-q", ":app:check"]
+    gradleCommands = ["-q", "build", ":app:check"]
     folders = new File("./examples").listFiles()
 
     dependencies {

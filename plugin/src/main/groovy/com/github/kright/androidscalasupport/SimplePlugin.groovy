@@ -15,7 +15,8 @@ class SimplePlugin implements Plugin<Project> {
     void apply(Project target) {
         this.project = target;
 
-        project.task('hello', type: HelloTask)
+        project.extensions.create("androidScala", AndroidScalaExtension)
+        project.extensions.androidScala.project = target
 
         if (!project.plugins.hasPlugin("com.android.application")) {
             project.logger.warn("You have to apply 'com.android.application' before!");

@@ -5,6 +5,10 @@ android {
     compileSdkVersion 24
     buildToolsVersion "24.0.2"
 
+    lintOptions{
+        abortOnError false
+    }
+
     defaultConfig {
         applicationId "com.github.kright.helloapp"
         minSdkVersion 18
@@ -12,12 +16,19 @@ android {
         versionCode 1
         versionName "1.0"
     }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+}
+
+// it has to be after android{} block
+androidScala{
+    scalaVersion '2.11.8'
+    multiDexEnabled true
 }
 
 dependencies {
