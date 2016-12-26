@@ -43,7 +43,7 @@ task testsCheck(type: GradleCommandRunner) {
 task testsConnectedCheck(type: GradleCommandRunner) {
 	description = "checks projects in examples folder on emulator"
 	failFast = true
-	gradleCommands = ["--stacktrace", ":app:connectedCheck"]
+	gradleCommands = ["--stacktrace", "clean", ":app:connectedCheck"]
 	folders = new File("./examples").listFiles()
 
 	dependencies {
