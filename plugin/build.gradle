@@ -1,12 +1,12 @@
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'groovy'
 
-group='com.github.Kright' // for jitpack.io
+group = 'com.github.Kright' // for jitpack.io
 version = '0.1'
 
-dependencies{
-    compile gradleApi()
-    compile localGroovy()
+dependencies {
+	compile gradleApi()
+	compile localGroovy()
 
-    compile 'com.android.tools.build:gradle:2.0.0' // for intelliJ IDEA navigation by android plugin code
+	compile 'com.android.tools.build:gradle:2.0.0' // for intelliJ IDEA navigation by android plugin code
 }

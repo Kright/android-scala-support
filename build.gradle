@@ -7,46 +7,46 @@ apply plugin: 'maven'
 
 
 allprojects {
-    repositories {
-        mavenCentral()
-        jcenter()
-    }
+	repositories {
+		mavenCentral()
+		jcenter()
+	}
 }
 
 buildscript {
-    repositories {
-        mavenCentral()
-    }
+	repositories {
+		mavenCentral()
+	}
 
-    dependencies {
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
-    }
+	dependencies {
+		classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
+	}
 }
 
 dependencies {
-    compile project(':plugin')
+	compile project(':plugin')
 }
 
 build.dependsOn("testsCheck")
 
 task testsCheck(type: GradleCommandRunner) {
-    description = "checks projects in examples folder"
-    failFast = false
-    gradleCommands = ["-q", "build", ":app:check"]
-    folders = new File("./examples").listFiles()
+	description = "checks projects in examples folder"
+	failFast = false
+	gradleCommands = ["-q", "build", ":app:check"]
+	folders = new File("./examples").listFiles()
 
-    dependencies {
-        jar
-    }
+	dependencies {
+		jar
+	}
 }
 
 task testsConnectedCheck(type: GradleCommandRunner) {
-    description = "checks projects in examples folder on emulator"
-    failFast = true
-    gradleCommands = ["-q", ":app:connectedCheck"]
-    folders = new File("./examples").listFiles()
+	description = "checks projects in examples folder on emulator"
+	failFast = true
+	gradleCommands = ["-q", ":app:connectedCheck"]
+	folders = new File("./examples").listFiles()
 
-    dependencies {
-        jar
-    }
+	dependencies {
+		jar
+	}
 }

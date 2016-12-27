@@ -8,12 +8,12 @@ import android.widget.TextView;
  */
 public class ApplicationTest extends ActivityInstrumentationTestCase2<MainActivity> {
 
-    public ApplicationTest() {
-        super(MainActivity.class);
-    }
+	public ApplicationTest() {
+		super(MainActivity.class);
+	}
 
-    public void testActivityContent() {
-        TextView textView = (TextView) getActivity().findViewById(R.id.text_view_hello);
-        assertEquals(textView.getText(), "Hello World!");
-    }
+	public void testActivityContent() {
+		TextView textView = (TextView) getActivity().findViewById(R.id.text_view_hello);
+		assertEquals(textView.getText(), "Hello World!");
+	}
 }
