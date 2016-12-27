@@ -8,7 +8,7 @@ import org.gradle.api.tasks.scala.ScalaCompile
 /**
  * Created by lgor on 24.09.2016.
  */
-class SimplePlugin implements Plugin<Project> {
+class AndroidScalaSupport implements Plugin<Project> {
 
 	protected Project project;
 	protected AndroidScalaExtension extension;
