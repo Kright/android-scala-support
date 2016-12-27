@@ -3,8 +3,6 @@ group 'com.github.kright.androidscalasupport'
 version = '0.1'
 
 apply plugin: 'groovy'
-apply plugin: 'maven'
-
 
 allprojects {
 	repositories {
@@ -16,10 +14,6 @@ allprojects {
 buildscript {
 	repositories {
 		mavenCentral()
-	}
-
-	dependencies {
-		classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
 	}
 }
 
