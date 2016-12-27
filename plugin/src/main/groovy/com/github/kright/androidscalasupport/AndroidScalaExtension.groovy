@@ -8,10 +8,14 @@ import org.gradle.api.Project
 
 class AndroidScalaExtension {
 
-	Project project
+	private Project project
 
 	String scalaVersion
 	String zincVersion = "0.3.11"
+
+	AndroidScalaExtension(Project currentProject){
+		this.project = currentProject
+	}
 
 	def scalaVersion(String version) {
 		scalaVersion = version

@@ -45,8 +45,7 @@ class AndroidScalaSupport implements Plugin<Project> {
 	}
 
 	private def createExtension() {
-		extension = project.extensions.create("androidScala", AndroidScalaExtension)
-		extension.project = project
+		extension = project.extensions.create("androidScala", AndroidScalaExtension, project)
 	}
 
 	private def updateAndroidExtension() {
