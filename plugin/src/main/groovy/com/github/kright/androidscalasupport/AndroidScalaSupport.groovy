@@ -55,8 +55,8 @@ class AndroidScalaSupport implements Plugin<Project> {
 		updateAndroidSourceSets()
 
 		androidExtension.buildTypes.whenObjectAdded { updateAndroidSourceSets() }
-		androidExtension.productFlavors.whenObjectAdded { updateAndroidSourceSetsExtension() }
-		androidExtension.signingConfigs.whenObjectAdded { updateAndroidSourceSetsExtension() }
+		androidExtension.productFlavors.whenObjectAdded { updateAndroidSourceSets() }
+		androidExtension.signingConfigs.whenObjectAdded { updateAndroidSourceSets() }
 	}
 
 	private def updateAndroidSourceSets() {

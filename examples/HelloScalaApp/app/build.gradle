@@ -9,6 +9,18 @@ android {
 		abortOnError false
 	}
 
+	productFlavors {
+		dev {
+			// Enable pre-dexing to produce an APK that can be tested on
+			// Android 5.0+ without the time-consuming DEX build processes.
+			minSdkVersion 21
+		}
+
+		prod{
+			minSdkVersion 18
+		}
+	}
+
 	defaultConfig {
 		applicationId "com.github.kright.helloscalaapp"
 		minSdkVersion 18
