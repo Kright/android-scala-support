@@ -27,8 +27,9 @@ apply plugin: 'android-scala-support'
 // It has to be after android{} block
 // I know that it isn't good practice and will change it in future
 androidScala {
-    scalaVersion '2.11.8' // adds scala library as dependency
-    zincVersion '0.3.11'  // may be skipped
-    multiDexEnabled true  // may be skipped if already enabled
+    scalaVersion '2.11.8' // if skipped will be default
+    zincVersion '0.3.11'  // if skipped will be default
+    multiDexEnabled true  // may be skipped if already enabled in android{}
+    addScalaLibrary true  // adds scala library to dependencies 
 }
 ```

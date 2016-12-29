@@ -37,10 +37,11 @@ android {
 	}
 }
 
-// it has to be after android{} block
+//it has to be after android{} block
 androidScala {
 	scalaVersion '2.11.8'
 	zincVersion '0.3.12'
+	addScalaLibrary true
 	multiDexEnabled true
 }
 

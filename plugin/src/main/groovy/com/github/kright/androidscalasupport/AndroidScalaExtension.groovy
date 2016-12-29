@@ -3,6 +3,22 @@ package com.github.kright.androidscalasupport
 import org.gradle.api.Project
 
 /**
+ * Examples of usage:
+ *
+ * minimal:
+ * androidScala {
+ *      addScalaLibrary()
+ *      multiDexEnabled()
+ * }
+ *
+ * full:
+ * androidScala {
+ *     scalaVersion '2.11.8'
+ *     zincVersion '0.3.11'
+ *     addScalaLibrary true
+ *     multiDexEnabled true
+ *}
+ *
  * Created by lgor on 26.11.2016.
  */
 
@@ -10,21 +26,27 @@ class AndroidScalaExtension {
 
 	private Project project
 
-	String scalaVersion
-	String zincVersion = "0.3.11"
+	String scalaVersion = '2.11.8'
+	String zincVersion = '0.3.11'
 
-	AndroidScalaExtension(Project currentProject){
+	AndroidScalaExtension(Project currentProject) {
 		this.project = currentProject
 	}
 
-	def scalaVersion(String version) {
-		scalaVersion = version
-		project.dependencies {
-			compile "org.scala-lang:scala-library:$version"
+	def addScalaLibrary(String scalaVersion) {
+		this.scalaVersion = scalaVersion
+		addScalaLibrary(true)
+	}
+
+	def addScalaLibrary(boolean add = true) {
+		if (add) {
+			project.dependencies {
+				compile "org.scala-lang:scala-library:$scalaVersion"
+			}
 		}
 	}
 
-	def multiDexEnabled(boolean enabled) {
+	def multiDexEnabled(boolean enabled = true) {
 		project.android.defaultConfig.multiDexEnabled = enabled
 		if (enabled) {
 			int minSdk = project.android.defaultConfig.minSdkVersion.apiLevel
