@@ -16,18 +16,29 @@ class AndroidScalaSupport implements Plugin<Project> {
 	protected File workDir
 	protected androidExtension
 	protected androidPlugin
+	boolean isLibrary
 
 	void apply(Project target) {
 		this.project = target
 
-		if (!project.plugins.hasPlugin("com.android.application"))
-			throw new GradleException("You have to apply 'com.android.application' before!")
-		androidPlugin = project.plugins.getPlugin('com.android.application')
+		(androidPlugin, isLibrary) = getAndroidPlugin()
 
 		initWorkDir()
 		createExtension()
 		updateAndroidExtension()
 		setScalaCompileTaskAdding()
+	}
+
+	private getAndroidPlugin() {
+		def androidPlugin = project.plugins.findPlugin('com.android.application')
+		if (androidPlugin)
+			return [androidPlugin, false]
+
+		androidPlugin = project.plugins.findPlugin('com.android.library')
+		if (androidPlugin)
+			return [androidPlugin, true]
+
+		throw new GradleException("You have to apply 'com.android.application' or 'com.android.library' before!")
 	}
 
 	private def initWorkDir() {
@@ -67,7 +78,11 @@ class AndroidScalaSupport implements Plugin<Project> {
 
 	private def setScalaCompileTaskAdding() {
 		project.afterEvaluate {
-			androidExtension.applicationVariants.all { addScalaCompile(it) }
+			if (isLibrary)
+				androidExtension.libraryVariants.all { addScalaCompile(it) }
+			else
+				androidExtension.applicationVariants.all { addScalaCompile(it) }
+
 			androidExtension.testVariants.all { addScalaCompile(it) }
 			androidExtension.unitTestVariants.all { addScalaCompile(it) }
 		}
@@ -82,6 +97,7 @@ class AndroidScalaSupport implements Plugin<Project> {
 
 		setTaskParams(scalaCompileTask, javaCompileTask)
 		copyDependencies(scalaCompileTask, javaCompileTask)
+		javaCompileTask.dependsOn(scalaCompileTask)
 
 		javaCompileTask.enabled = false
 
@@ -124,13 +140,13 @@ class AndroidScalaSupport implements Plugin<Project> {
 	}
 
 	private def copyDependencies(scalaCompile, javaCompile) {
-		project.tasks.each {
-			if (it.dependsOn.contains(javaCompile)) {
-				it.dependsOn(scalaCompile)
+		project.gradle.taskGraph.whenReady { graph ->
+			for (task in graph.allTasks) {
+				if (task.dependsOn.contains(javaCompile))
+					task.dependsOn(scalaCompile)
 			}
 		}
 
 		scalaCompile.dependsOn = javaCompile.dependsOn
-		scalaCompile.dependsOn(javaCompile)
 	}
 }
