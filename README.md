@@ -1,5 +1,5 @@
 # android-scala-support
-It will be gradle plugin for scala support in android projects.
+Gradle plugin for scala support in android projects.
 
 Plugin replaces compileJava tasks with compileScala tasks, but I didn't test on large projects.
 
