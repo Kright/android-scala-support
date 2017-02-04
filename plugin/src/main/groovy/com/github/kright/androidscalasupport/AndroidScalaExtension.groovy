@@ -3,21 +3,14 @@ package com.github.kright.androidscalasupport
 import org.gradle.api.Project
 
 /**
- * Examples of usage:
+ * Example:
  *
- * minimal:
  * androidScala {
- *      addScalaLibrary()
- *      multiDexEnabled()
+ *     scalaVersion '2.11.8' // if skipped will be default
+ *     zincVersion '0.3.11'  // if skipped will be default
+ *     multiDexEnabled true  // may be skipped if already enabled in android{}
+ *     addScalaLibrary true  // adds scala library to dependencies
  * }
- *
- * full:
- * androidScala {
- *     scalaVersion '2.11.8'
- *     zincVersion '0.3.11'
- *     addScalaLibrary true
- *     multiDexEnabled true
- *}
  *
  * Created by lgor on 26.11.2016.
  */
@@ -38,6 +31,9 @@ class AndroidScalaExtension {
 		addScalaLibrary(true)
 	}
 
+	/**
+	 * adds project dependency on "org.scala-lang:scala-library:$scalaVersion"
+	 */
 	def addScalaLibrary(boolean add = true) {
 		if (add) {
 			project.dependencies {
@@ -46,18 +42,13 @@ class AndroidScalaExtension {
 		}
 	}
 
+	/**
+	 * adds multiDex option to default config
+	 */
 	def multiDexEnabled(boolean enabled = true) {
 		project.android.defaultConfig.multiDexEnabled = enabled
 		if (enabled) {
-			int minSdk = project.android.defaultConfig.minSdkVersion.apiLevel
-			multiDexEnabled(minSdk)
-		}
-	}
-
-	def multiDexEnabled(int minSdkVersion) {
-		project.android.defaultConfig.multiDexEnabled = true
-		// android with version 21 and higher uses ART and doesn't need library
-		if (minSdkVersion <= 20) {
+			project.android.defaultConfig.multiDexEnabled = true
 			project.dependencies {
 				compile 'com.android.support:multidex:1.0.1'
 			}
