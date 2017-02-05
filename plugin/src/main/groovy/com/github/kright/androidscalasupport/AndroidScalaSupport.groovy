@@ -4,6 +4,7 @@ import org.gradle.api.GradleException
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.internal.AbstractTask
+import org.gradle.api.tasks.compile.JavaCompile
 import org.gradle.api.tasks.scala.ScalaCompile
 
 /**
@@ -17,7 +18,7 @@ class AndroidScalaSupport implements Plugin<Project> {
 	protected File workDir
 	protected androidExtension
 	protected androidPlugin
-	boolean isLibrary
+	protected boolean isLibrary
 
 	void apply(Project target) {
 		this.project = target
@@ -119,6 +120,9 @@ class AndroidScalaSupport implements Plugin<Project> {
 	private addScalaCompile(variant) {
 		def scalaCompileTaskName = "compileScala(${variant.name})"
 		def javaCompileTask = variant.javaCompiler
+
+		if (!(javaCompileTask instanceof JavaCompile))
+			throw new GradleException("Jack compiler isn't supported")
 
 		def scalaCompileTask = project.tasks.create(scalaCompileTaskName, ScalaCompile)
 		project.logger.info("create task: ${scalaCompileTaskName}")
