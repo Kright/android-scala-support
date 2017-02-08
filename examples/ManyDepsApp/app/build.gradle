@@ -26,6 +26,7 @@ android {
 }
 
 androidScala {
+	scalaVersion "2.11.8"
 	addScalaLibrary true
 	multiDexEnabled true
 }
@@ -36,5 +37,8 @@ dependencies {
 		exclude group: 'com.android.support', module: 'support-annotations'
 	})
 	compile 'com.android.support:appcompat-v7:24.2.1'
+
+	compile group: 'com.typesafe.akka', name: 'akka-actor_2.11', version: '2.3.12'
+
 	testCompile 'junit:junit:4.12'
 }
