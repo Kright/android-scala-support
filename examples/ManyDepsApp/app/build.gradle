@@ -38,6 +38,8 @@ dependencies {
 	})
 	compile 'com.android.support:appcompat-v7:24.2.1'
 
+	compile 'com.google.android.gms:play-services-location:10.2.0'
+
 	compile group: 'com.typesafe.akka', name: 'akka-actor_2.11', version: '2.3.12'
 
 	testCompile 'junit:junit:4.12'
