@@ -2,6 +2,7 @@ package com.github.kright.manydepsapp
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import com.github.kright.manydepsapp.manymethods._
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.common.api.GoogleApiClient.{ConnectionCallbacks, OnConnectionFailedListener}
@@ -37,6 +38,10 @@ class MainActivity extends AppCompatActivity {
 	override def onResume(): Unit = {
 		super.onResume()
 		AppActors.logActor ! "resume"
+		new ClassWith4kMethods().log("load", "class", "with", "4k methods")
+		new ClassWith4kMethods2().log("load", "class", "with", "4k methods")
+		new ClassWith4kMethods3().log("load", "class", "with", "4k methods")
+		//new ClassWith4kMethods4().log("load", "class", "with", "4k methods")
 	}
 
 
@@ -59,4 +64,5 @@ class MainActivity extends AppCompatActivity {
 			AppActors.logActor ! connectionResult
 		}
 	}
+
 }
