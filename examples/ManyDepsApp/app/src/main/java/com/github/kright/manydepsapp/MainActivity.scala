@@ -2,7 +2,7 @@ package com.github.kright.manydepsapp
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import com.github.kright.manydepsapp.manymethods._
+import com.github.kright.manydepsapp.manymethods.{ClassWith4kMethods, ClassWith4kMethods2, ClassWith4kMethods3}
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.common.api.GoogleApiClient.{ConnectionCallbacks, OnConnectionFailedListener}

@@ -28,6 +28,7 @@ class AndroidScalaSupport implements Plugin<Project> {
 		initWorkDir()
 		createExtension()
 		updateAndroidExtension()
+		excludeFilesFromMainDexList()
 		setScalaCompileTaskAdding()
 	}
 
@@ -94,6 +95,43 @@ class AndroidScalaSupport implements Plugin<Project> {
 	private updateAndroidSourceSets() {
 		androidExtension.sourceSets.each {
 			it.java.filter.include("**/*.scala")
+		}
+	}
+
+	private boolean modifyMainDex(File file, boolean printDebug = false) {
+		def text = file.text
+		println("modify main dex!")
+		file.withWriter('utf-8') { writer ->
+			def excludedList = []
+			text.eachLine { line ->
+				if (!extension.mainDex.fileIsExcluded(line)) {
+					writer.writeLine(line)
+					if (printDebug)
+						println(line)
+				} else {
+					excludedList << line
+				}
+			}
+			if (printDebug) {
+				println("excluded:")
+				excludedList.each { println(it) }
+			}
+		}
+	}
+
+	private excludeFilesFromMainDexList() {
+
+		project.tasks.whenTaskAdded { task ->
+			println(task.name)
+			if (task.name.matches('transformClassesWithDexFor.*')) {
+				println('task matches!')
+				task.doFirst {
+					task.inputs.files.files.each { println(it) }
+					task.inputs.files.filter { it.name.equals('maindexlist.txt') }.files.each {
+						modifyMainDex(it, extension.mainDex.printLog)
+					}
+				}
+			}
 		}
 	}
 

@@ -26,9 +26,14 @@ android {
 }
 
 androidScala {
-	scalaVersion "2.11.8"
+	scalaVersion '2.11.8'
 	addScalaLibrary true
 	multiDexEnabled true
+	mainDex {
+		exclude 'akka'
+		exclude 'scala'
+		printLog
+	}
 }
 
 dependencies {

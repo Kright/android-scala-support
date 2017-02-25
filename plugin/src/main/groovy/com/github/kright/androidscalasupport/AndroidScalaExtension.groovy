@@ -22,8 +22,11 @@ class AndroidScalaExtension {
 	String scalaVersion = '2.11.8'
 	String zincVersion = '0.3.11'
 
+	MainDexListTransformExtension mainDex;
+
 	AndroidScalaExtension(Project currentProject) {
 		this.project = currentProject
+		mainDex = this.extensions.create("mainDex", MainDexListTransformExtension)
 	}
 
 	def addScalaLibrary(String scalaVersion) {
