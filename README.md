@@ -29,7 +29,16 @@ apply plugin: 'android-scala-support'
 androidScala {
     scalaVersion '2.11.8' // if skipped will be default
     zincVersion '0.3.11'  // if skipped will be default
-    multiDexEnabled true  // may be skipped if already enabled in android{}
-    addScalaLibrary true  // adds scala library to dependencies 
+    addScalaLibrary true  // adds scala library to dependencies
+    
+    multiDex {
+        enabled true 
+        
+        overwriteMainDex {
+            includeMultiDexClasses true         
+            includeClassesFromManifest true 
+            include 'com/smth/Classname.class'
+        }
+    }
 }
 ```
