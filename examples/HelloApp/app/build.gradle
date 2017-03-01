@@ -28,7 +28,8 @@ android {
 // it has to be after android{} block
 androidScala {
 	addScalaLibrary()
-	multiDexEnabled()
+
+	multiDex.enabled true
 }
 
 dependencies {

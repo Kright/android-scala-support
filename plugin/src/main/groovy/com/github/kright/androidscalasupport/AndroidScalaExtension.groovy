@@ -8,22 +8,34 @@ import org.gradle.api.Project
  * androidScala {
  *     scalaVersion '2.11.8' // if skipped will be default
  *     zincVersion '0.3.11'  // if skipped will be default
- *     multiDexEnabled true  // may be skipped if already enabled in android{}
  *     addScalaLibrary true  // adds scala library to dependencies
- * }
+ *
+ *     multiDex{
+ *         enabled true
+ *
+ *         overwriteMainDex {                   //optional
+ *              includeMultiDexClasses true
+ *              includeClassesFromManifest false
+ *              include 'com/github/smth/Classname.class'
+ *         }
+ *     }
+ *}
  *
  * Created by lgor on 26.11.2016.
  */
 
 class AndroidScalaExtension {
 
-	private Project project
+	private final Project project
+
+	MultidexExtension multiDex
 
 	String scalaVersion = '2.11.8'
 	String zincVersion = '0.3.11'
 
 	AndroidScalaExtension(Project currentProject) {
 		this.project = currentProject
+		this.multiDex = this.extensions.create("multiDex", MultidexExtension, currentProject)
 	}
 
 	def addScalaLibrary(String scalaVersion) {
@@ -38,19 +50,6 @@ class AndroidScalaExtension {
 		if (add) {
 			project.dependencies {
 				compile "org.scala-lang:scala-library:$scalaVersion"
-			}
-		}
-	}
-
-	/**
-	 * adds multiDex option to default config
-	 */
-	def multiDexEnabled(boolean enabled = true) {
-		project.android.defaultConfig.multiDexEnabled = enabled
-		if (enabled) {
-			project.android.defaultConfig.multiDexEnabled = true
-			project.dependencies {
-				compile 'com.android.support:multidex:1.0.1'
 			}
 		}
 	}

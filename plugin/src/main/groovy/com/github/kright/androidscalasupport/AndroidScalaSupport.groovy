@@ -14,7 +14,6 @@ class AndroidScalaSupport implements Plugin<Project> {
 
 	protected Project project
 	protected AndroidScalaExtension extension
-
 	protected File workDir
 	protected androidExtension
 	protected androidPlugin
@@ -28,6 +27,7 @@ class AndroidScalaSupport implements Plugin<Project> {
 		initWorkDir()
 		createExtension()
 		updateAndroidExtension()
+		setMainDexModification()
 		setScalaCompileTaskAdding()
 	}
 
@@ -95,6 +95,27 @@ class AndroidScalaSupport implements Plugin<Project> {
 		androidExtension.sourceSets.each {
 			it.java.filter.include("**/*.scala")
 		}
+	}
+
+	/**
+	 * creates MainDexModifier and sets callbacks
+	 */
+	private MainDexModifier setMainDexModification() {
+		MainDexModifier modifier = new MainDexModifier(this)
+
+		project.tasks.whenTaskAdded { task ->
+			if (task.name.matches('transformClassesWithDexFor.*')) {
+				task.doFirst {
+					if (extension.multiDex.mainDexModifier != null) {
+						task.inputs.files.filter { it.name.equals('maindexlist.text') }.files.each { file ->
+							modifier.modify(file, extension.multiDex.mainDexModifier)
+						}
+					}
+				}
+			}
+		}
+
+		return modifier
 	}
 
 	/**
@@ -183,7 +204,7 @@ class AndroidScalaSupport implements Plugin<Project> {
 	}
 
 	/**
-	 * copy dependencies of one task to another
+	 * copies dependencies of one task to another
 	 * @param copied will have same dependeines as sample
 	 * @param sample isn't modified
 	 */
