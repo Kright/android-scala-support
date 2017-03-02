@@ -1,7 +1,5 @@
 package com.github.kright.androidscalasupport
 
-import org.gradle.api.GradleException
-
 /**
  * overwrites given maindexlist.txt
  *
@@ -28,8 +26,16 @@ class MainDexModifier {
 			'android/support/multiDex/ZipUtil.class'
 	]
 
-	private List classesFromManifest() {
-		throw new GradleException("not implemented yet")
+	private List classesFromManifest(File manifestFile) {
+		assert manifestFile != null
+		assert manifestFile.exists()
+		assert manifestFile.isFile()
+
+		def xml = new XmlParser().parse(manifestFile)
+		def appName = xml.manifest.application.attribute('android:name')
+
+		plugin.project.logger.warn("appName = ${appName}")
+		return [appName.replace('.', '/') + ".class"]
 	}
 
 	private writeToFile(File file, List<String> lines) {
@@ -40,17 +46,17 @@ class MainDexModifier {
 		}
 	}
 
-	def modify(File file, MainDexOverwrite rule) {
+	def modify(File mainDexList, MainDexOverwrite rule) {
 		def classes = []
 
 		if (rule.includeMultiDexClasses)
 			classes.addAll(multiDexClasses)
 
-		if (rule.includeClassesFromManifest)
-			classes.addAll(classesFromManifest())
+		if (rule.pathToManifest)
+			classes.addAll(classesFromManifest(new File(rule.pathToManifest)))
 
 		classes.addAll(rule.includedClasses)
 
-		writeToFile(file, classes)
+		writeToFile(mainDexList, classes.unique())
 	}
 }
