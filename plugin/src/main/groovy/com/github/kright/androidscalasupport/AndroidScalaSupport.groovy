@@ -100,37 +100,36 @@ class AndroidScalaSupport implements Plugin<Project> {
 	/**
 	 * creates MainDexModifier and sets callbacks
 	 */
-	private MainDexModifier setMainDexModification() {
+	private setMainDexModification() {
+		if (isLibrary) return
 		MainDexModifier modifier = new MainDexModifier(this)
 
-		project.tasks.whenTaskAdded { task ->
-			if (task.name.matches('transformClassesWithDexFor.*')) {
-				task.doFirst {
-					if (extension.multiDex.mainDexModifier != null) {
-						task.inputs.files.filter { it.name.equals('maindexlist.text') }.files.each { file ->
-							modifier.modify(file, extension.multiDex.mainDexModifier)
-						}
+		androidExtension.applicationVariants.all { variant ->
+			def name = variant.name.capitalize()
+
+			project.tasks.getByName("process${name}Manifest").doLast { manifestProcessorTask ->
+				File manifest = manifestProcessorTask.manifestOutputFile
+
+				project.tasks.getByName("transformClassesWithDexFor$name").doFirst { transformTask ->
+					transformTask.inputs.files.filter { it.name.equals('maindexlist.txt') }.files.each { dexFile ->
+						modifier.modify(dexFile, extension.multiDex.mainDexModifier, manifest)
 					}
 				}
 			}
 		}
-
-		return modifier
 	}
 
 	/**
 	 * creates ScalaCompile tasks for each build variant
 	 */
 	private setScalaCompileTaskAdding() {
-		project.afterEvaluate {
-			if (isLibrary)
-				androidExtension.libraryVariants.all { addScalaCompile(it) }
-			else
-				androidExtension.applicationVariants.all { addScalaCompile(it) }
+		if (isLibrary)
+			androidExtension.libraryVariants.all { addScalaCompile(it) }
+		else
+			androidExtension.applicationVariants.all { addScalaCompile(it) }
 
-			androidExtension.testVariants.all { addScalaCompile(it) }
-			androidExtension.unitTestVariants.all { addScalaCompile(it) }
-		}
+		androidExtension.testVariants.all { addScalaCompile(it) }
+		androidExtension.unitTestVariants.all { addScalaCompile(it) }
 	}
 
 	/**
