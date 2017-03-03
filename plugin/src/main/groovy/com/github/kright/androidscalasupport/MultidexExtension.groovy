@@ -53,7 +53,7 @@ class MultidexExtension {
 	}
 
 	/**
-	 * @return mainDexModifier
+	 * @return mainDexModifier. may be null
 	 */
 	def getMainDexModifier() {
 		return mainDexModifier

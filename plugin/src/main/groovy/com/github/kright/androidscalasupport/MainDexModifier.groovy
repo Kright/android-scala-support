@@ -47,6 +47,9 @@ class MainDexModifier {
 	}
 
 	def modify(File mainDexList, MainDexOverwrite rule, File manifest) {
+		assert mainDexList != null
+		assert rule != null
+
 		def classes = []
 
 		if (rule.includeMultiDexClasses)

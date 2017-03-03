@@ -108,6 +108,9 @@ class AndroidScalaSupport implements Plugin<Project> {
 			def name = variant.name.capitalize()
 
 			project.tasks.getByName("process${name}Manifest").doLast { manifestProcessorTask ->
+				if (extension.multiDex.mainDexModifier == null)
+					return
+
 				File manifest = manifestProcessorTask.manifestOutputFile
 
 				project.tasks.getByName("transformClassesWithDexFor$name").doFirst { transformTask ->
