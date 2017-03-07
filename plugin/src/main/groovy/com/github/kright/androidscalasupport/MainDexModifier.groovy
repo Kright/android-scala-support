@@ -7,14 +7,7 @@ package com.github.kright.androidscalasupport
  */
 class MainDexModifier {
 
-	private final AndroidScalaSupport plugin
-
-	MainDexModifier(AndroidScalaSupport androidScalaSupport) {
-		assert androidScalaSupport != null
-		plugin = androidScalaSupport
-	}
-
-	private final multiDexClasses = [
+	private final static multiDexClasses = [
 			'android/support/multiDex/MultiDexExtractor.class',
 			'android/support/multiDex/MultiDex.class',
 			'android/support/multiDex/MultiDexExtractor$1.class',
@@ -25,6 +18,13 @@ class MainDexModifier {
 			'android/support/multiDex/MultiDex$V4.class',
 			'android/support/multiDex/ZipUtil.class'
 	]
+
+	private final AndroidScalaSupport plugin
+
+	MainDexModifier(AndroidScalaSupport androidScalaSupport) {
+		assert androidScalaSupport != null
+		plugin = androidScalaSupport
+	}
 
 	private List classesFromManifest(File manifestFile) {
 		assert manifestFile != null
