@@ -101,21 +101,23 @@ class AndroidScalaSupport implements Plugin<Project> {
 	 * creates MainDexModifier and sets callbacks
 	 */
 	private setMainDexModification() {
-		if (isLibrary) return
+		if (isLibrary)
+			return
+
 		MainDexModifier modifier = new MainDexModifier(this)
 
 		androidExtension.applicationVariants.all { variant ->
 			def name = variant.name.capitalize()
 
 			project.tasks.getByName("process${name}Manifest").doLast { manifestProcessorTask ->
-				if (extension.multiDex.mainDexModifier == null)
+				if (extension.multiDex.mainDexOverwriteRule == null)
 					return
 
 				File manifest = manifestProcessorTask.manifestOutputFile
 
 				project.tasks.getByName("transformClassesWithDexFor$name").doFirst { transformTask ->
 					transformTask.inputs.files.filter { it.name.equals('maindexlist.txt') }.files.each { dexFile ->
-						modifier.modify(dexFile, extension.multiDex.mainDexModifier, manifest)
+						modifier.modify(dexFile, extension.multiDex.mainDexOverwriteRule, manifest)
 					}
 				}
 			}
@@ -193,7 +195,7 @@ class AndroidScalaSupport implements Plugin<Project> {
 	 * @param dependency of the configuration
 	 * @return project configuration
 	 */
-	private configuration(name, dependency) {
+	private configuration(String name, String dependency) {
 		def configuration = project.configurations.findByName(name)
 
 		if (!configuration) {

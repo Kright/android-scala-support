@@ -29,7 +29,6 @@ class MainDexModifier {
 	private List classesFromManifest(File manifestFile) {
 		assert manifestFile != null
 		assert manifestFile.exists()
-		assert manifestFile.isFile()
 
 		def xml = new XmlSlurper().parse(manifestFile)
 
@@ -46,7 +45,7 @@ class MainDexModifier {
 		}
 	}
 
-	def modify(File mainDexList, MainDexOverwrite rule, File manifest) {
+	def modify(File mainDexList, AndroidScalaExtension.Multidex.MainDexOverwriteRule rule, File manifest) {
 		assert mainDexList != null
 		assert rule != null
 
