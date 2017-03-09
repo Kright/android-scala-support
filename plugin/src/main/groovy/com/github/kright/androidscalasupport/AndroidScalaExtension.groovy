@@ -1,19 +1,20 @@
 package com.github.kright.androidscalasupport
 
+import org.gradle.api.GradleException
 import org.gradle.api.Project
 
 /**
  * Example:
  *
  * androidScala {
- *     scalaVersion '2.11.8' // if skipped will be default
+ *     scalaVersion '2.11.8'
  *     zincVersion '0.3.11'  // if skipped will be default
  *     addScalaLibrary true  // adds scala library to dependencies
  *
  *     multiDex {            // optional
  *         enabled true
  *
- *         overwriteMainDex {                   //optional
+ *         overwriteMainDex {                   // optional
  *              includeMultiDexClasses true
  *              includeClassesFromManifest false
  *              include 'com/github/smth/Classname.class'
@@ -27,10 +28,9 @@ import org.gradle.api.Project
 class AndroidScalaExtension {
 
 	private final Project project
+	final Multidex multiDex
 
-	Multidex multiDex
-
-	String scalaVersion = '2.11.8'
+	private String scalaVersion = null
 	String zincVersion = '0.3.11'
 
 	AndroidScalaExtension(Project currentProject) {
@@ -38,22 +38,19 @@ class AndroidScalaExtension {
 		this.multiDex = this.extensions.create("multiDex", Multidex, project)
 	}
 
-	def addScalaLibrary(String scalaVersion) {
-		this.scalaVersion = scalaVersion
-		addScalaLibrary(true)
-	}
-
-	/**
-	 * adds project dependency on "org.scala-lang:scala-library:$scalaVersion"
-	 */
-	def addScalaLibrary(boolean add = true) {
-		if (add) {
-			project.dependencies {
-				compile "org.scala-lang:scala-library:$scalaVersion"
-			}
+	def scalaVersion(String version) {
+		scalaVersion = version
+		project.dependencies {
+			compile "org.scala-lang:scala-library:$scalaVersion"
 		}
 	}
 
+	def getScalaVersion() {
+		if (scalaVersion == null)
+			throw new GradleException("androidScala.scalaVersion wasn't specified")
+
+		return scalaVersion
+	}
 
 	static class Multidex {
 
@@ -82,13 +79,6 @@ class AndroidScalaExtension {
 
 		/**
 		 * overwrites mainDexList from scratch. (only if multiDex is enabled, else shows warning and does nothing)
-		 *
-		 * Example:
-		 * overwriteMainDex {
-		 *     includeMultiDexClasses true
-		 *     includeClassesFromManifest true
-		 *     include 'com/smth/Classname.class'
-		 * }
 		 */
 		def overwriteMainDex(Closure closure) {
 			if (!enabled) {

@@ -27,8 +27,7 @@ android {
 
 // it has to be after android{} block
 androidScala {
-	addScalaLibrary()
-
+	scalaVersion '2.11.8'
 	multiDex.enabled true
 }
 

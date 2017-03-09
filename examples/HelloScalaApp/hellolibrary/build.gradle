@@ -26,10 +26,8 @@ android {
 	}
 }
 
-androidScala {
+androidScala{
 	scalaVersion '2.11.8'
-	zincVersion '0.3.12'
-	addScalaLibrary true
 }
 
 dependencies {

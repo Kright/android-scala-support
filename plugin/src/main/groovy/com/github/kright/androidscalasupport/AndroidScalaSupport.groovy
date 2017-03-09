@@ -22,10 +22,10 @@ class AndroidScalaSupport implements Plugin<Project> {
 	void apply(Project target) {
 		this.project = target
 
+		extension = project.extensions.create("androidScala", AndroidScalaExtension, project)
 		(androidPlugin, isLibrary) = getAndroidPlugin()
 
 		initWorkDir()
-		createExtension()
 		updateAndroidExtension()
 		setMainDexModification()
 		setScalaCompileTaskAdding()
@@ -66,13 +66,6 @@ class AndroidScalaSupport implements Plugin<Project> {
 	 */
 	private File workSubdir(String name) {
 		return new File(workDir, name)
-	}
-
-	/**
-	 * creates plugin extension with initial values
-	 */
-	private createExtension() {
-		extension = project.extensions.create("androidScala", AndroidScalaExtension, project)
 	}
 
 	/**
