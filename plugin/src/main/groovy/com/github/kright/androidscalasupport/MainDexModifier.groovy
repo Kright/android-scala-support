@@ -50,19 +50,19 @@ class MainDexModifier {
 		}
 	}
 
-	def modify(File mainDexList, AndroidScalaExtension.Multidex.MainDexOverwriteRule rule, File manifest) {
+	def modify(File mainDexList, AndroidScalaExtension.Multidex.MainDexOverwriteRules rules, File manifest) {
 		assert mainDexList != null
-		assert rule != null
+		assert rules != null
 
 		def classes = []
 
-		if (rule.includeMultiDexClasses)
+		if (rules.includeMultiDexClasses)
 			classes.addAll(multiDexClasses)
 
-		if (rule.includeClassesFromManifest)
+		if (rules.includeClassesFromManifest)
 			classes.addAll(classesFromManifest(manifest))
 
-		classes.addAll(rule.includedClasses)
+		classes.addAll(rules.includedClasses)
 
 		writeToFile(mainDexList, classes.unique())
 	}

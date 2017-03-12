@@ -56,7 +56,7 @@ class AndroidScalaExtension {
 
 		private Project project
 
-		private MainDexOverwriteRule dexOverwriteRule = null
+		private MainDexOverwriteRules dexOverwriteRules = null
 		private boolean enabled = false
 
 		Multidex(Project project) {
@@ -86,21 +86,21 @@ class AndroidScalaExtension {
 				return
 			}
 
-			dexOverwriteRule = new MainDexOverwriteRule()
-			closure.delegate = dexOverwriteRule
+			dexOverwriteRules = new MainDexOverwriteRules()
+			closure.delegate = dexOverwriteRules
 			closure.resolveStrategy = Closure.DELEGATE_FIRST
 			closure.call()
 		}
 
 		/**
-		 * @return MainDexOverwriteRule. may be null
+		 * @return MainDexOverwriteRules. may be null
 		 */
-		MainDexOverwriteRule getMainDexOverwriteRule() {
-			return dexOverwriteRule
+		MainDexOverwriteRules getMainDexOverwriteRule() {
+			return dexOverwriteRules
 		}
 
 
-		class MainDexOverwriteRule {
+		class MainDexOverwriteRules {
 
 			def includedClasses = []
 
