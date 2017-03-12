@@ -17,7 +17,7 @@ android {
 		}
 
 		prod {
-			minSdkVersion 18
+			minSdkVersion 14
 		}
 	}
 
@@ -41,8 +41,15 @@ android {
 androidScala {
 	scalaVersion '2.11.8'
 	zincVersion '0.3.12'
-	addScalaLibrary true
-	multiDexEnabled true
+
+	multiDex {
+		enabled true
+
+		overwriteMainDex {
+			includeMultiDexClasses true
+			includeClassesFromManifest true
+		}
+	}
 }
 
 dependencies {

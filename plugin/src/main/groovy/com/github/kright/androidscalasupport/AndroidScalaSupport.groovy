@@ -23,12 +23,13 @@ class AndroidScalaSupport implements Plugin<Project> {
 	void apply(Project target) {
 		this.project = target
 
+		extension = project.extensions.create("androidScala", AndroidScalaExtension, project)
 		(androidPlugin, isLibrary) = getAndroidPlugin()
 
 		initWorkDir()
-		createExtension()
 		updateAndroidExtension()
-		setScalaCompileTaskAdding()
+		installMainDexModification()
+		installScalaCompile()
 	}
 
 	/**
@@ -69,13 +70,6 @@ class AndroidScalaSupport implements Plugin<Project> {
 	}
 
 	/**
-	 * creates plugin extension with initial values
-	 */
-	private createExtension() {
-		extension = project.extensions.create("androidScala", AndroidScalaExtension, project)
-	}
-
-	/**
 	 *  updates android plugin extension, adds callbacks in it
 	 */
 	private updateAndroidExtension() {
@@ -98,18 +92,43 @@ class AndroidScalaSupport implements Plugin<Project> {
 	}
 
 	/**
+	 * creates MainDexModifier and sets callbacks
+	 */
+	private installMainDexModification() {
+		if (isLibrary)
+			return
+
+		MainDexModifier modifier = new MainDexModifier(this)
+
+		androidExtension.applicationVariants.all { variant ->
+			def name = variant.name.capitalize()
+
+			project.tasks.getByName("process${name}Manifest").doLast { manifestProcessorTask ->
+				if (extension.multiDex.mainDexOverwriteRule == null)
+					return
+
+				File manifest = manifestProcessorTask.manifestOutputFile
+
+				project.tasks.getByName("transformClassesWithDexFor$name").doFirst { transformTask ->
+					transformTask.inputs.files.filter { it.name.equals('maindexlist.txt') }.files.each { dexFile ->
+						modifier.modify(dexFile, extension.multiDex.mainDexOverwriteRule, manifest)
+					}
+				}
+			}
+		}
+	}
+
+	/**
 	 * creates ScalaCompile tasks for each build variant
 	 */
-	private setScalaCompileTaskAdding() {
-		project.afterEvaluate {
-			if (isLibrary)
-				androidExtension.libraryVariants.all { addScalaCompile(it) }
-			else
-				androidExtension.applicationVariants.all { addScalaCompile(it) }
+	private installScalaCompile() {
+		if (isLibrary)
+			androidExtension.libraryVariants.all { addScalaCompile(it) }
+		else
+			androidExtension.applicationVariants.all { addScalaCompile(it) }
 
-			androidExtension.testVariants.all { addScalaCompile(it) }
-			androidExtension.unitTestVariants.all { addScalaCompile(it) }
-		}
+		androidExtension.testVariants.all { addScalaCompile(it) }
+		androidExtension.unitTestVariants.all { addScalaCompile(it) }
 	}
 
 	/**
@@ -170,7 +189,7 @@ class AndroidScalaSupport implements Plugin<Project> {
 	 * @param dependency of the configuration
 	 * @return project configuration
 	 */
-	private configuration(name, dependency) {
+	private configuration(String name, String dependency) {
 		def configuration = project.configurations.findByName(name)
 
 		if (!configuration) {
@@ -183,7 +202,7 @@ class AndroidScalaSupport implements Plugin<Project> {
 	}
 
 	/**
-	 * copy dependencies of one task to another
+	 * copies dependencies of one task to another
 	 * @param copied will have same dependeines as sample
 	 * @param sample isn't modified
 	 */
