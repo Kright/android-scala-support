@@ -14,6 +14,7 @@ class AndroidScalaSupport implements Plugin<Project> {
 
 	protected Project project
 	protected AndroidScalaExtension extension
+
 	protected File workDir
 	protected androidExtension
 	protected androidPlugin
