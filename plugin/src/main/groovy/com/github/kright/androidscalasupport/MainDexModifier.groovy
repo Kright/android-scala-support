@@ -34,6 +34,11 @@ class MainDexModifier {
 
 		def name = xml.application[0].@'android:name'
 
+		if (name == "") {
+			plugin.project.logger.warn("Application class isn't specified in manifest! MultiDex may not work!")
+			return []
+		}
+
 		return ["$name".replace('.' as char, '/' as char) + ".class"]
 	}
 
