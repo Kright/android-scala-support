@@ -27,8 +27,8 @@ class AndroidScalaSupport implements Plugin<Project> {
 
 		initWorkDir()
 		updateAndroidExtension()
-		setMainDexModification()
-		setScalaCompileTaskAdding()
+		installMainDexModification()
+		installScalaCompile()
 	}
 
 	/**
@@ -93,7 +93,7 @@ class AndroidScalaSupport implements Plugin<Project> {
 	/**
 	 * creates MainDexModifier and sets callbacks
 	 */
-	private setMainDexModification() {
+	private installMainDexModification() {
 		if (isLibrary)
 			return
 
@@ -120,7 +120,7 @@ class AndroidScalaSupport implements Plugin<Project> {
 	/**
 	 * creates ScalaCompile tasks for each build variant
 	 */
-	private setScalaCompileTaskAdding() {
+	private installScalaCompile() {
 		if (isLibrary)
 			androidExtension.libraryVariants.all { addScalaCompile(it) }
 		else
