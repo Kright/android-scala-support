@@ -27,7 +27,7 @@ apply plugin: 'android-scala-support'
 
 In common cases scalaVersion and multidex are required:
 ```
-adnroidScala {
+androidScala {
     scalaVersion '2.11.8'
     multiDex.enabled true    
 }
