@@ -24,7 +24,7 @@ class AndroidScalaSupport implements Plugin<Project> {
 		this.project = target
 
 		extension = project.extensions.create("androidScala", AndroidScalaExtension, project)
-		(androidPlugin, isLibrary) = getAndroidPlugin()
+		(androidPlugin, isLibrary) = findAndroidPlugin()
 
 		initWorkDir()
 		updateAndroidExtension()
@@ -36,7 +36,7 @@ class AndroidScalaSupport implements Plugin<Project> {
 	 * @return pair (appPlugin, false) or (libraryPlugin, true)
 	 * @throws GradleException if android plugin isn't found
 	 */
-	private getAndroidPlugin() {
+	private findAndroidPlugin() {
 		def androidPlugin = project.plugins.findPlugin('com.android.application')
 		if (androidPlugin)
 			return [androidPlugin, false]
@@ -155,7 +155,13 @@ class AndroidScalaSupport implements Plugin<Project> {
 		scalaCompileTask.doFirst {
 			scalaCompileTask.source = new TreeSet(javaCompileTask.source.collect { it })
 			// because R.java files will be generated and added by one of previous tasks
-			project.logger.info("${scalaCompileTask} sources : " + scalaCompileTask.source.files)
+
+			scalaCompileTask.classpath = javaCompileTask.classpath +
+					project.files(androidPlugin.androidBuilder.getBootClasspath(false))
+			//some dependencies (like support-v4) are added too late
+
+			project.logger.info("${scalaCompileTask} sources : ${scalaCompileTask.source.files}")
+			project.logger.info("${scalaCompileTask} classpath : ${scalaCompileTask.classpath.files}")
 		}
 	}
 
@@ -171,6 +177,9 @@ class AndroidScalaSupport implements Plugin<Project> {
 		scalaCompile.scalaCompileOptions.encoding = javaCompile.options.encoding
 		scalaCompile.classpath = javaCompile.classpath +
 				project.files(androidPlugin.androidBuilder.getBootClasspath(false))
+
+		project.logger.debug("javaClasspath = ${javaCompile.classpath.files}")
+		project.logger.debug("androidBootClasspath = ${androidPlugin.androidBuilder.getBootClasspath(false)}")
 
 		scalaCompile.scalaClasspath = configuration("scalaCompiler:${scalaCompile.name}",
 				"org.scala-lang:scala-compiler:${extension.scalaVersion}").asFileTree
