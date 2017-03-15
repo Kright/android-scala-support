@@ -70,37 +70,42 @@ class AndroidScalaExtension {
 			enabled = value
 			project.android.defaultConfig.multiDexEnabled = enabled
 			if (enabled) {
-				project.android.defaultConfig.multiDexEnabled = true
 				project.dependencies {
 					compile 'com.android.support:multidex:1.0.1'
 				}
 			}
 		}
 
+		/** getter */
+		def getEnabled() {
+			return enabled
+		}
+
 		/**
 		 * overwrites mainDexList from scratch. (only if multiDex is enabled, else shows warning and does nothing)
+		 * lazy initialization (if isn't used, maindexlist won't be modified)
 		 */
-		def overwriteMainDex(Closure closure) {
+		def getOverwriteMainDex() {
 			if (!enabled) {
 				project.logger.warn("multiDex is disabled")
 				return
 			}
 
-			dexOverwriteRules = new MainDexOverwriteRules()
-			closure.delegate = dexOverwriteRules
-			closure.resolveStrategy = Closure.DELEGATE_FIRST
-			closure.call()
+			if (!dexOverwriteRules)
+				dexOverwriteRules = this.extensions.create("overwriteMainDex", MainDexOverwriteRules)
+
+			return dexOverwriteRules
 		}
 
 		/**
 		 * @return MainDexOverwriteRules. may be null
 		 */
 		MainDexOverwriteRules getMainDexOverwriteRule() {
-			return dexOverwriteRules
+			return enabled ? dexOverwriteRules : null
 		}
 
 
-		class MainDexOverwriteRules {
+		static class MainDexOverwriteRules {
 
 			def includedClasses = []
 
