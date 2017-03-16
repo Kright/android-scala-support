@@ -86,10 +86,8 @@ class AndroidScalaExtension {
 		 * lazy initialization (if isn't used, maindexlist won't be modified)
 		 */
 		def getOverwriteMainDex() {
-			if (!enabled) {
+			if (!enabled)
 				project.logger.warn("multiDex is disabled")
-				return
-			}
 
 			if (!dexOverwriteRules)
 				dexOverwriteRules = this.extensions.create("overwriteMainDex", MainDexOverwriteRules)
