@@ -27,8 +27,15 @@ android {
 
 androidScala {
 	scalaVersion "2.11.8"
-	addScalaLibrary true
-	multiDexEnabled true
+
+	multiDex {
+		enabled true
+
+		overwriteMainDex {
+			includeMultiDexClasses true
+			includeClassesFromManifest true
+		}
+	}
 }
 
 dependencies {
