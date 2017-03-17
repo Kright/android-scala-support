@@ -21,8 +21,6 @@ dependencies {
 	compile project(':plugin')
 }
 
-build.dependsOn("testsCheck")
-
 task testsCheck(type: GradleCommandRunner) {
 	description = "checks projects in examples folder"
 	failFast = true
