@@ -3,7 +3,7 @@ apply plugin: 'android-scala-support'
 
 android {
 	compileSdkVersion 24
-	buildToolsVersion "25.0.2"
+	buildToolsVersion "24.0.2"
 	defaultConfig {
 		applicationId "com.github.kright.proguardapp"
 		minSdkVersion 15
@@ -17,19 +17,14 @@ android {
 		abortOnError false
 	}
 
-	signingConfigs {
-		debug {}
-	}
-
 	buildTypes {
 
 		debug {
-			multiDexEnabled true
+			minifyEnabled true
+			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro', 'proguard-scala.pro'
 		}
 
-		proguarded {
-			signingConfig signingConfigs.debug
-
+		release {
 			minifyEnabled true
 			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro', 'proguard-scala.pro'
 		}

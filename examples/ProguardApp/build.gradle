@@ -4,7 +4,7 @@ buildscript {
 		flatDir dirs: '../../plugin/build/libs'
 	}
 	dependencies {
-		classpath 'com.android.tools.build:gradle:2.3.0'
+		classpath 'com.android.tools.build:gradle:2.2.3'
 
 		classpath group: 'com.github.Kright', name: 'plugin', version: '0.1'
 	}
