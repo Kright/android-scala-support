@@ -1,0 +1,21 @@
+buildscript {
+	repositories {
+		jcenter()
+		flatDir dirs: '../../plugin/build/libs'
+	}
+	dependencies {
+		classpath 'com.android.tools.build:gradle:2.2.3'
+
+		classpath group: 'com.github.Kright', name: 'plugin', version: '0.1'
+	}
+}
+
+allprojects {
+	repositories {
+		jcenter()
+	}
+}
+
+task clean(type: Delete) {
+	delete rootProject.buildDir
+}
