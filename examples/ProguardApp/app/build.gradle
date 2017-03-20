@@ -26,7 +26,7 @@ android {
 		shrinked {
 			minifyEnabled true
 			useProguard false
-			// android has it's own code shrinker. It uses proguard rules too, but don't recommended for release builds
+			// android has it's own code shrinker. https://developer.android.com/studio/build/shrink-code.html
 			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro', 'proguard-scala.pro'
 		}
 
