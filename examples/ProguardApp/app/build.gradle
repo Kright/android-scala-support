@@ -23,6 +23,13 @@ android {
 			multiDexEnabled true
 		}
 
+		shrinked {
+			minifyEnabled true
+			useProguard false
+			// android has it's own code shrinker. It uses proguard rules too, but don't recommended for release builds
+			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro', 'proguard-scala.pro'
+		}
+
 		release {
 			minifyEnabled true
 			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro', 'proguard-scala.pro'
