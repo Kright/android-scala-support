@@ -35,3 +35,10 @@
     scala.concurrent.forkjoin.LinkedTransferQueue$PaddedAtomicReference tail;
     scala.concurrent.forkjoin.LinkedTransferQueue$PaddedAtomicReference cleanMe;
 }
+
+# my additions
+
+-dontnote scala.concurrent.forkjoin.**
+-dontnote android.net.http.*
+-dontnote org.apache.commons.codec.**
+-dontnote org.apache.http.**
