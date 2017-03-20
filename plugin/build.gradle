@@ -1,4 +1,5 @@
 apply plugin: 'groovy'
+apply plugin: 'maven'       // for jitpack.io
 
 group = 'com.github.Kright' // for jitpack.io
 version = '0.1'
