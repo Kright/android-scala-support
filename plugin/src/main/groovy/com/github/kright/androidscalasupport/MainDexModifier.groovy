@@ -43,8 +43,10 @@ class MainDexModifier {
 	}
 
 	private writeToFile(File file, List<String> lines) {
+		plugin.project.logger.debug("overwrite ${file.getAbsolutePath()} :")
 		file.withWriter('utf-8') { writer ->
 			for (line in lines) {
+				plugin.project.logger.debug(line)
 				writer.writeLine(line)
 			}
 		}
