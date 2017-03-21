@@ -5,10 +5,6 @@ android {
 	compileSdkVersion 24
 	buildToolsVersion "24.0.2"
 
-	lintOptions {
-		abortOnError false
-	}
-
 	productFlavors {
 		dev {
 			// Enable pre-dexing to produce an APK that can be tested on
