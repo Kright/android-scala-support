@@ -9,7 +9,7 @@ buildscript {
 		}
 	}
 	dependencies {
-		classpath 'com.github.Kright:android-scala-support:gs-26~fix_jitpack-SNAPSHOT'
+		classpath 'com.github.Kright:android-scala-support:master-SNAPSHOT' // the newest commit in master
 
 		classpath 'com.android.tools.build:gradle:2.1.3'
 	}
