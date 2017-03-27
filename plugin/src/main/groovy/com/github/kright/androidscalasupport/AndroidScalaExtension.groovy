@@ -38,10 +38,20 @@ class AndroidScalaExtension {
 		this.multiDex = this.extensions.create("multiDex", Multidex, project)
 	}
 
-	def scalaVersion(String version) {
+	def scalaVersion(String version, boolean doAdditionalActions = true) {
 		scalaVersion = version
-		project.dependencies {
-			compile "org.scala-lang:scala-library:$scalaVersion"
+
+		if (doAdditionalActions) {
+			project.dependencies {
+				compile "org.scala-lang:scala-library:$scalaVersion"
+			}
+
+			// Change error level to warning level because of issue:
+			// (scala-library-2.11.8) Invalid package reference in library;
+			// not included in Android: java.lang.management. Referenced from scala.sys.process.package.
+			project.android.lintOptions {
+				warning 'InvalidPackage'
+			}
 		}
 	}
 
