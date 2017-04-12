@@ -6,7 +6,7 @@ android {
 	buildToolsVersion "25.0.2"
 	defaultConfig {
 		applicationId "com.github.kright.scala212app"
-		minSdkVersion 21
+		minSdkVersion 24
 		targetSdkVersion 24
 		versionCode 1
 		versionName "1.0"
@@ -26,7 +26,7 @@ android {
 }
 
 androidScala {
-	scalaVersion "2.11.8"
+	scalaVersion "2.12.1"
 
 	multiDex.enabled true
 }
