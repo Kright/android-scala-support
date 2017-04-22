@@ -12,9 +12,10 @@ import org.gradle.api.tasks.scala.ScalaCompile
  */
 class AndroidScalaSupport implements Plugin<Project> {
 
+	protected final processedSourceSets = new HashSet()
+
 	protected Project project
 	protected AndroidScalaExtension extension
-
 	protected File workDir
 	protected androidExtension
 	protected androidPlugin
@@ -83,11 +84,25 @@ class AndroidScalaSupport implements Plugin<Project> {
 	}
 
 	/**
-	 * adds *.scala files to sources
+	 * adds *.scala files to sources and scala folder to source set dirs
 	 */
 	private updateAndroidSourceSets() {
-		androidExtension.sourceSets.each {
-			it.java.filter.include("**/*.scala")
+		androidExtension.sourceSets.each { set ->
+			if (processedSourceSets.contains(set))
+				return
+
+			processedSourceSets.add(set)
+
+			set.java.filter.include("**/*.scala")
+
+			def srcDirs = set.java.srcDirs
+
+			srcDirs.forEach { dir ->
+				def scalaDir = dir.getParent() + "/scala"
+				set.java.srcDir scalaDir
+			}
+
+			project.logger.debug("source set $set, srcDirs ${set.java.srcDirs}")
 		}
 	}
 
