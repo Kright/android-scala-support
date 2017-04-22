@@ -1,14 +1,12 @@
 buildscript {
 	repositories {
 		jcenter()
-		maven {
-			url 'https://jitpack.io'
-		}
+		flatDir dirs: '../../plugin/build/libs'
 	}
 	dependencies {
 		classpath 'com.android.tools.build:gradle:2.3.0'
 
-		classpath 'com.github.Kright:android-scala-support:master-SNAPSHOT' // the newest commit in master
+		classpath group: 'com.github.Kright', name: 'plugin', version: '0.1'
 	}
 }
 

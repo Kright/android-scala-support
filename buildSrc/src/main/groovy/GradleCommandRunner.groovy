@@ -45,7 +45,7 @@ class GradleCommandRunner extends DefaultTask {
 
 			println(success ? "success!" : "fail")
 			if (failFast && !success) {
-				throw new TaskExecutionException(this, new Exception("project example ${exampleDir.name} wasn't builded"))
+				throw new TaskExecutionException(this, new Exception("project example ${exampleDir.name} wasn't built"))
 			}
 		}
 	}
