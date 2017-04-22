@@ -1,8 +1,16 @@
 # Android scala support
 Gradle plugin for scala support in android projects.
 
-Plugin replaces compileJava tasks with compileScala tasks.
-### Usage:
+Features:
+
+1. compiling scala code
+2. placing to mainDex only minimal set of classes
+
+Android plugin puts all classes from /src (and all classes which are used by them) to mainDex file. Whole scala library and all your code will be in mainDex even if multiDex enabled. So, you can run into 65k methods limit.
+
+This plugin allows you to place to mainDex only minimal set of classes, which will change classloader, and after that application classes will be loaded from any dex file.
+
+### Getting Started
 
 Add to main build.gradle:
 ```groovy
@@ -37,14 +45,13 @@ with next line in manifest:
 android:name="android.support.multidex.MultiDexApplication"
 ```
 
-
 #### All options
 
 ```groovy
 // This has to be after android{} block
 
 androidScala {
-    scalaVersion '2.11.8'
+    scalaVersion '2.11.8' // nesessary property
     zincVersion '0.3.11'  // if skipped will be '0.3.11'
 
     multiDex {            // helps to avoid 65k methods limit
@@ -63,3 +70,24 @@ androidScala {
     }
 }
 ```
+
+### Examples
+
+[HelloApp](https://github.com/Kright/android-scala-support/tree/master/examples/HelloApp): simple java app with loading plugin from jitpack:
+
+For testing purposes other examples use jar file with plugin, but in the rest they may be usefull:
+
+[HelloScalaApp](https://github.com/Kright/android-scala-support/tree/master/examples/HelloScalaApp): Contains two modules - app and library, both of them with scala code.
+
+[ProguardApp](https://github.com/Kright/android-scala-support/tree/master/examples/ProguardApp)
+
+To be sure that android-scala-plugin can build something big, I built [Antox project](https://github.com/Kright/Antox/tree/change-plugin) with my plugin instead of another [scala plugin](https://github.com/saturday06/gradle-android-scala-plugin).
+
+### Contributing
+
+Next command builds plugin and all test projects in /examples folder.
+```
+./gradlew testsCheck
+```
+
+If you found any issue, feel free to report it.
