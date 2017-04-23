@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-apply plugin: 'android-scala-support'
+apply plugin: 'com.github.kright.android-scala-support'
 
 android {
 	compileSdkVersion 25
