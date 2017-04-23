@@ -4,6 +4,11 @@ apply plugin: 'maven'       // for jitpack.io
 group = 'com.github.kright' // for jitpack.io
 version = '0.1'
 
+jar {
+	baseName = "android-scala-support"
+	version = "SNAPSHOT"
+}
+
 dependencies {
 	compile gradleApi()
 	compile localGroovy()

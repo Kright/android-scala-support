@@ -9,7 +9,8 @@ buildscript {
 		}
 	}
 	dependencies {
-		classpath 'com.github.kright:android-scala-support:gs-31~rename-plugin-SNAPSHOT' // the newest commit in branch
+		// the newest version from master
+		classpath group: 'com.github.kright', name: 'android-scala-support', version: 'SNAPSHOT'
 
 		classpath 'com.android.tools.build:gradle:2.3.0'
 	}

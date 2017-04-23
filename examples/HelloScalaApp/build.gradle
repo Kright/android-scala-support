@@ -6,7 +6,7 @@ buildscript {
 		flatDir dirs: '../../plugin/build/libs'
 	}
 	dependencies {
-		classpath group: 'com.github.kright', name: 'plugin', version: '0.1'
+		classpath group: 'com.github.kright', name: 'android-scala-support', version: 'SNAPSHOT'
 
 		classpath 'com.android.tools.build:gradle:2.3.0'
 	}
