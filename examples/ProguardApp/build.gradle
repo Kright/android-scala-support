@@ -1,12 +1,21 @@
 buildscript {
 	repositories {
 		jcenter()
-		flatDir dirs: '../../plugin/build/libs'
+
+		if (project.hasProperty('useLocalSnapshot')) {
+			println("Using snapshot from local file")
+			flatDir dirs: '../../plugin/build/libs'
+		} else {
+			maven {
+				url 'https://jitpack.io'
+			}
+		}
 	}
 	dependencies {
+		// the newest version from master
 		classpath 'com.android.tools.build:gradle:2.3.0'
 
-		classpath group: 'com.github.Kright', name: 'android-scala-support', version: 'SNAPSHOT'
+		classpath group: 'com.github.Kright', name: 'android-scala-support', version: '-SNAPSHOT'
 	}
 }
 

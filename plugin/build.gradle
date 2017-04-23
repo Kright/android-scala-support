@@ -6,7 +6,7 @@ version = '0.1'
 
 jar {
 	baseName = "android-scala-support"
-	version = "SNAPSHOT"
+	version = "-SNAPSHOT"
 }
 
 dependencies {
