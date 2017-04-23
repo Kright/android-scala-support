@@ -3,8 +3,8 @@ Gradle plugin for scala support in android projects.
 
 Features:
 
-1. compiling scala code
-2. placing to mainDex only minimal set of classes
+1. Compiling scala code.
+2. Placing to mainDex only minimal set of classes.
 
 Android plugin puts all classes from /src (and all classes which are used by them) to mainDex file. Whole scala library and all your code will be in mainDex even if multiDex enabled. So, you can run into 65k methods limit.
 
@@ -51,7 +51,7 @@ android:name="android.support.multidex.MultiDexApplication"
 // This has to be after android{} block
 
 androidScala {
-    scalaVersion '2.11.8' // nesessary property
+    scalaVersion '2.11.8' // necessary property
     zincVersion '0.3.11'  // if skipped will be '0.3.11'
 
     multiDex {            // helps to avoid 65k methods limit
@@ -73,15 +73,13 @@ androidScala {
 
 ### Examples
 
-[HelloApp](https://github.com/Kright/android-scala-support/tree/master/examples/HelloApp): simple java app with loading plugin from jitpack:
+* [HelloApp](https://github.com/Kright/android-scala-support/tree/master/examples/HelloApp): simple java app with loading plugin from jitpack:
 
-For testing purposes other examples use jar file with plugin, but in the rest they may be usefull:
+For testing purposes other examples use jar file with plugin, but in the rest they may be useful:
 
-[HelloScalaApp](https://github.com/Kright/android-scala-support/tree/master/examples/HelloScalaApp): Contains two modules - app and library, both of them with scala code.
-
-[ProguardApp](https://github.com/Kright/android-scala-support/tree/master/examples/ProguardApp)
-
-To be sure that android-scala-plugin can build something big, I built [Antox project](https://github.com/Kright/Antox/tree/change-plugin) with my plugin instead of another [scala plugin](https://github.com/saturday06/gradle-android-scala-plugin).
+* [HelloScalaApp](https://github.com/Kright/android-scala-support/tree/master/examples/HelloScalaApp): Contains two modules - app and library, both of them with scala code.
+* [ProguardApp](https://github.com/Kright/android-scala-support/tree/master/examples/ProguardApp)
+* To be sure that android-scala-plugin can build something big, I built [Antox project](https://github.com/Kright/Antox/tree/change-plugin) with my plugin instead of another [scala plugin](https://github.com/saturday06/gradle-android-scala-plugin).
 
 ### Contributing
 
