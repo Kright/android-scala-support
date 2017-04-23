@@ -81,6 +81,11 @@ For testing purposes other examples use jar file with plugin, but in the rest th
 * [ProguardApp](https://github.com/Kright/android-scala-support/tree/master/examples/ProguardApp)
 * To be sure that android-scala-plugin can build something big, I built [Antox project](https://github.com/Kright/Antox/tree/change-plugin) with my plugin instead of another [scala plugin](https://github.com/saturday06/gradle-android-scala-plugin).
 
+### Known issues
+
+* Log message "Pruning sources from previous analysis, due to incompatible CompileSetup." for scala compile task. This is okay on clean build and shouldn't be on incremental. [Info](https://github.com/sbt-compiler-maven-plugin/sbt-compiler-maven-plugin/issues/26), [sbt sources](https://github.com/sbt/sbt/commit/b70345c61b288276d5237261458c6676f34b696d).
+* Plugin decreases warning level of lint for "Invalid package". Warning is still shown, but it won't prevent project build. Reason of warning: "(scala-library-2.11.8) Invalid package reference in library; not included in Android: java.lang.management. Referenced from scala.sys.process.package.)"
+
 ### Contributing
 
 Next command builds plugin and all test projects in /examples folder.
