@@ -41,7 +41,7 @@ androidScala {
 	multiDex {
 		enabled true
 
-		overwriteMainDex {
+		mainDex {
 			includeMultiDexClasses true
 			includeClassesFromManifest true
 		}

@@ -95,12 +95,12 @@ class AndroidScalaExtension {
 		 * overwrites mainDexList from scratch. (only if multiDex is enabled, else shows warning and does nothing)
 		 * lazy initialization (if isn't used, maindexlist won't be modified)
 		 */
-		def overwriteMainDex(Closure closure) {
+		def mainDex(Closure closure) {
 			if (!enabled)
 				project.logger.warn("multiDex is disabled")
 
 			if (!dexOverwriteRules)
-				dexOverwriteRules = this.extensions.create("overwriteMainDex", MainDexOverwriteRules)
+				dexOverwriteRules = this.extensions.create("mainDex", MainDexOverwriteRules)
 
 			closure.delegate = dexOverwriteRules
 			closure.resolveStrategy = Closure.DELEGATE_FIRST
