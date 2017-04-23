@@ -42,8 +42,8 @@ androidScala {
 		enabled true
 
 		mainDex {
-			includeMultiDexClasses true
-			includeClassesFromManifest true
+			addMultiDex true
+			addApplication true
 		}
 	}
 }
