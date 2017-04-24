@@ -1,28 +1,38 @@
 apply plugin: 'com.android.application'
 //apply plugin: 'com.github.kright.android-scala-support'
+apply plugin: 'me.tatarka.retrolambda'
 
 android {
-	compileSdkVersion 25
-	buildToolsVersion "25.0.2"
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
 
-	lintOptions {
-		abortOnError false
-	}
+    lintOptions {
+        abortOnError false
+    }
 
-	defaultConfig {
-		applicationId "com.github.kright.helloapp"
-		minSdkVersion 18
-		targetSdkVersion 24
-		versionCode 1
-		versionName "1.0"
-	}
+    defaultConfig {
+        applicationId "com.github.kright.helloapp"
+        minSdkVersion 18
+        targetSdkVersion 24
+        versionCode 1
+        versionName "1.0"
+    }
 
-	buildTypes {
-		release {
-			minifyEnabled false
-			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-		}
-	}
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+retrolambda {
+    javaVersion JavaVersion.VERSION_1_7
 }
 
 // it has to be after android{} block
@@ -32,7 +42,7 @@ android {
 //}
 
 dependencies {
-	compile fileTree(dir: 'libs', include: ['*.jar'])
-	testCompile 'junit:junit:4.12'
-	compile 'com.android.support:appcompat-v7:25.3.0'
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:25.3.0'
 }
