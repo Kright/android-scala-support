@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.github.kright.android-scala-support'
+//apply plugin: 'com.github.kright.android-scala-support'
 
 android {
 	compileSdkVersion 25
@@ -26,13 +26,13 @@ android {
 }
 
 // it has to be after android{} block
-androidScala {
-	scalaVersion '2.11.8'
-	multiDex.enabled true
-}
+//androidScala {
+//	scalaVersion '2.11.8'
+//	multiDex.enabled true
+//}
 
 dependencies {
 	compile fileTree(dir: 'libs', include: ['*.jar'])
 	testCompile 'junit:junit:4.12'
-	compile 'com.android.support:appcompat-v7:24.2.1'
+	compile 'com.android.support:appcompat-v7:25.3.0'
 }
