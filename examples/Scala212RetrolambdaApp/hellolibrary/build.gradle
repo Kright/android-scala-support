@@ -1,5 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.kright.android-scala-support'
+apply plugin: 'me.tatarka.retrolambda'
 
 android {
 	compileSdkVersion 25
@@ -20,10 +21,22 @@ android {
 			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 		}
 	}
+
+	compileOptions {
+		sourceCompatibility JavaVersion.VERSION_1_8
+		targetCompatibility JavaVersion.VERSION_1_8
+	}
 }
 
 androidScala{
-	scalaVersion '2.11.8'
+	scalaVersion '2.12.1'
+}
+
+retrolambda {
+	bytecodeVersion 50
+	javaVersion JavaVersion.VERSION_1_7
+	defaultMethods true
+	incremental true
 }
 
 dependencies {

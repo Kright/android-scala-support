@@ -2,6 +2,7 @@
 
 buildscript {
 	repositories {
+		mavenCentral()
 		jcenter()
 		flatDir dirs: '../../plugin/build/libs'
 	}
@@ -9,12 +10,15 @@ buildscript {
 		classpath group: 'com.github.kright', name: 'plugin', version: '0.1'
 
 		classpath 'com.android.tools.build:gradle:2.3.0'
+
+		classpath 'me.tatarka:gradle-retrolambda:3.6.1'
 	}
 }
 
 allprojects {
 	repositories {
 		jcenter()
+		mavenCentral()
 	}
 }
 
