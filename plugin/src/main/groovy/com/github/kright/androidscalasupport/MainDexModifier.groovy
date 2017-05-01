@@ -26,7 +26,7 @@ class MainDexModifier {
 		plugin = androidScalaSupport
 	}
 
-	private List classesFromManifest(File manifestFile) {
+	private List applicationFromManifest(File manifestFile) {
 		assert manifestFile != null
 		assert manifestFile.exists()
 
@@ -56,11 +56,11 @@ class MainDexModifier {
 
 		def classes = []
 
-		if (rules.includeMultiDexClasses)
+		if (rules.addMultiDex)
 			classes.addAll(multiDexClasses)
 
-		if (rules.includeClassesFromManifest)
-			classes.addAll(classesFromManifest(manifest))
+		if (rules.addApplication)
+			classes.addAll(applicationFromManifest(manifest))
 
 		classes.addAll(rules.includedClasses)
 

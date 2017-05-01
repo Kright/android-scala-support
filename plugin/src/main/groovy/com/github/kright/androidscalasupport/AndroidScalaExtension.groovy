@@ -14,10 +14,10 @@ import org.gradle.api.Project
  *     multiDex {            // optional
  *         enabled true
  *
- *         overwriteMainDex {                   // optional
- *              includeMultiDexClasses true
- *              includeClassesFromManifest false
- *              include 'com/github/smth/Classname.class'
+ *         mainDex {                   // optional
+ *              addMultiDex true
+ *              addApplication false
+ *              add 'com/github/smth/Classname.class'
  *         }
  *     }
  * }
@@ -95,18 +95,20 @@ class AndroidScalaExtension {
 		 * overwrites mainDexList from scratch. (only if multiDex is enabled, else shows warning and does nothing)
 		 * lazy initialization (if isn't used, maindexlist won't be modified)
 		 */
-		def getOverwriteMainDex() {
+		def mainDex(Closure closure) {
 			if (!enabled)
 				project.logger.warn("multiDex is disabled")
 
 			if (!dexOverwriteRules)
-				dexOverwriteRules = this.extensions.create("overwriteMainDex", MainDexOverwriteRules)
+				dexOverwriteRules = this.extensions.create("mainDex", MainDexOverwriteRules)
 
-			return dexOverwriteRules
+			closure.delegate = dexOverwriteRules
+			closure.resolveStrategy = Closure.DELEGATE_FIRST
+			closure()
 		}
 
 		/**
-		 * @return MainDexOverwriteRules. may be null
+		 * @return MainDexOverwriteRules. null when disabled or not defined
 		 */
 		MainDexOverwriteRules getMainDexOverwriteRule() {
 			return enabled ? dexOverwriteRules : null
@@ -117,18 +119,18 @@ class AndroidScalaExtension {
 
 			def includedClasses = []
 
-			boolean includeMultiDexClasses = false
-			boolean includeClassesFromManifest = false
+			boolean addMultiDex = false
+			boolean addApplication = false
 
-			def includeMultiDexClasses(boolean include = true) {
-				includeMultiDexClasses = include
+			def addMultiDex(boolean include = true) {
+				addMultiDex = include
 			}
 
-			def includeClassesFromManifest(boolean include = true) {
-				includeClassesFromManifest = include
+			def addApplication(boolean include = true) {
+				addApplication = include
 			}
 
-			def include(String className) {
+			def add(String className) {
 				includedClasses << className
 			}
 		}

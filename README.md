@@ -50,15 +50,15 @@ androidScala {
     multiDex {            // helps to avoid 65k methods limit
         enabled true      // false by default
 
-        overwriteMainDex {
+        mainDex {
             /* even if multiDex enabled,
              * android plugin places all classes from src to maindex.
              * If you have too many of them,
              * you can overwrite maindexlist with only necessary classes
              */
-            includeMultiDexClasses true
-            includeClassesFromManifest true
-            include 'com/smth/Classname.class'
+            addMultiDex true
+            addApplication true
+            add 'com/smth/Classname.class'
         }
     }
 }
