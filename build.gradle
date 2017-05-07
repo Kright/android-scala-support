@@ -24,7 +24,7 @@ dependencies {
 task testsCheck(type: GradleCommandRunner) {
 	description = "checks projects in examples folder"
 	failFast = true
-	gradleCommands = ["--stacktrace", "clean", "build", ":app:check"]
+	gradleCommands = ["--stacktrace", "clean", "build", ":app:check", "-PuseLocalSnapshot=true"]
 	folders = new File("./examples").listFiles()
 
 	dependencies {
@@ -35,7 +35,7 @@ task testsCheck(type: GradleCommandRunner) {
 task testsConnectedCheck(type: GradleCommandRunner) {
 	description = "checks projects in examples folder on emulator"
 	failFast = true
-	gradleCommands = ["--stacktrace", "clean", ":app:connectedCheck"]
+	gradleCommands = ["--stacktrace", "clean", ":app:connectedCheck", "-PuseLocalSnapshot=true"]
 	folders = new File("./examples").listFiles()
 
 	dependencies {
