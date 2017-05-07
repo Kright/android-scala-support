@@ -24,9 +24,10 @@ class AndroidScalaSupport implements Plugin<Project> {
 
 		extension = project.extensions.create("androidScala", AndroidScalaExtension, project)
 		(androidPlugin, isLibrary) = findAndroidPlugin()
+		androidExtension = project.extensions.getByName("android")
 
 		initWorkDir()
-		updateAndroidExtension()
+		addScalaSources()
 		installMainDexModification()
 		installScalaCompile()
 	}
@@ -69,18 +70,9 @@ class AndroidScalaSupport implements Plugin<Project> {
 	}
 
 	/**
-	 *  updates android plugin extension, adds callbacks in it
-	 */
-	private updateAndroidExtension() {
-		androidExtension = project.extensions.getByName("android")
-
-		updateAndroidSourceSets()
-	}
-
-	/**
 	 * adds *.scala files to sources and scala folder to source set dirs
 	 */
-	private updateAndroidSourceSets() {
+	private addScalaSources() {
 		androidExtension.sourceSets.all { set ->
 			set.java.filter.include("**/*.scala")
 
