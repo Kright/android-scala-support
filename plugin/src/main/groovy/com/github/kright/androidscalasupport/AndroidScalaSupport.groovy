@@ -12,8 +12,6 @@ import org.gradle.api.tasks.scala.ScalaCompile
  */
 class AndroidScalaSupport implements Plugin<Project> {
 
-	protected final processedSourceSets = new HashSet()
-
 	protected Project project
 	protected AndroidScalaExtension extension
 	protected File workDir
@@ -26,9 +24,10 @@ class AndroidScalaSupport implements Plugin<Project> {
 
 		extension = project.extensions.create("androidScala", AndroidScalaExtension, project)
 		(androidPlugin, isLibrary) = findAndroidPlugin()
+		androidExtension = project.extensions.getByName("android")
 
 		initWorkDir()
-		updateAndroidExtension()
+		addScalaSources()
 		installMainDexModification()
 		installScalaCompile()
 	}
@@ -71,28 +70,10 @@ class AndroidScalaSupport implements Plugin<Project> {
 	}
 
 	/**
-	 *  updates android plugin extension, adds callbacks in it
-	 */
-	private updateAndroidExtension() {
-		androidExtension = project.extensions.getByName("android")
-
-		updateAndroidSourceSets()
-
-		androidExtension.buildTypes.whenObjectAdded { updateAndroidSourceSets() }
-		androidExtension.productFlavors.whenObjectAdded { updateAndroidSourceSets() }
-		androidExtension.signingConfigs.whenObjectAdded { updateAndroidSourceSets() }
-	}
-
-	/**
 	 * adds *.scala files to sources and scala folder to source set dirs
 	 */
-	private updateAndroidSourceSets() {
-		androidExtension.sourceSets.each { set ->
-			if (processedSourceSets.contains(set))
-				return
-
-			processedSourceSets.add(set)
-
+	private addScalaSources() {
+		androidExtension.sourceSets.all { set ->
 			set.java.filter.include("**/*.scala")
 
 			def srcDirs = set.java.srcDirs
