@@ -133,14 +133,14 @@ class AndroidScalaSupport implements Plugin<Project> {
 	 * @param variant android build variant
 	 */
 	private addScalaCompile(variant) {
-		def scalaCompileTaskName = "compileScala(${variant.name})"
+		def scalaCompileTaskName = "compile${variant.name.capitalize()}WithScala"
 		def javaCompileTask = variant.javaCompiler
 
 		if (!(javaCompileTask instanceof JavaCompile))
 			throw new GradleException("Jack compiler isn't supported")
 
 		def scalaCompileTask = project.tasks.create(scalaCompileTaskName, ScalaCompile)
-		project.logger.info("create task: ${scalaCompileTaskName}")
+		project.logger.info("create task: $scalaCompileTaskName")
 
 		setTaskParams(scalaCompileTask, javaCompileTask)
 		copyDependencies(scalaCompileTask, javaCompileTask)
